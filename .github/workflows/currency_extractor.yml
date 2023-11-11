@@ -1,0 +1,37 @@
+name: Currency Extractor EasyOCR CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install dependencies
+      run: |
+        pip install currency_extractor_easyocr
+
+    - name: Run tests
+      run: |
+        currency_symbol_extract path/to/your/image.jpg --symbols $ € £ --languages en --image_rescale 50
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Deploy to Production
+      # Add your deployment steps here, e.g., deploying to a server or cloud platform
+      run: echo "Deploying Currency Extractor EasyOCR to production..."
+
+    # You can add more deployment or release steps as needed.
